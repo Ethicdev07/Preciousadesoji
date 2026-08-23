@@ -1,7 +1,0 @@
-{"timestamp":"00:00:01.966","source":"Server","level":"LOG","message":"- Experiments (use with caution):"}
-{"timestamp":"00:00:01.966","source":"Server","level":"LOG","message":"  ⨯ useTypeScriptCli"}
-{"timestamp":"00:00:01.967","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:06:43.479","source":"Server","level":"LOG","message":"✓ Compiled in 143ms"}
-{"timestamp":"00:08:41.275","source":"Server","level":"LOG","message":"✓ Compiled in 55ms"}
-{"timestamp":"00:11:35.570","source":"Server","level":"LOG","message":"  Reload env: .env"}
-{"timestamp":"00:11:36.066","source":"Server","level":"LOG","message":"✓ Compiled in 0ms"}
