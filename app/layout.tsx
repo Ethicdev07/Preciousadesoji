@@ -3,21 +3,23 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.preciousadesoji.com.ng"),
-  title: "Precious Adesoji | Virtual Assistant & Digital Marketing Specialist",
+  title: "Precious Adesoji | Social Media Manager & Virtual Assistant",
   description:
-    "Precious Adesoji helps founders and remote teams stay organised, move faster, and build a stronger digital presence.",
+    "Precious Adesoji helps founders and remote teams manage social media, create polished video content, stay organised, and build a stronger digital presence.",
   keywords: [
     "Precious Adesoji",
     "virtual assistant",
     "digital marketing specialist",
     "remote assistant",
-    "social media marketing",
+    "social media manager",
+    "social media management",
+    "video editing",
     "SEO",
   ],
   openGraph: {
-    title: "Precious Adesoji | Virtual Assistant & Digital Marketing Specialist",
+    title: "Precious Adesoji | Social Media Manager & Virtual Assistant",
     description:
-      "Calm systems, thoughtful support, and digital strategy for busy founders and growing teams.",
+      "Social media management, polished video content, calm systems, and thoughtful digital support for busy founders and growing teams.",
     type: "website",
     images: [
       {

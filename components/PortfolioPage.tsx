@@ -28,16 +28,22 @@ const services = [
     detail: "Inbox · Calendar · SOPs",
   },
   {
-    title: "Digital Marketing",
+    title: "Social Media Management",
     description:
-      "Practical digital campaigns built around your goals, from content planning and social publishing to audience engagement and reporting.",
-    detail: "Social · Campaigns · Reporting",
+      "End-to-end content planning, scheduling, community engagement, and performance tracking that keeps your brand consistent and connected.",
+    detail: "Strategy · Scheduling · Engagement",
   },
   {
-    title: "Research & Reporting",
+    title: "Digital Marketing",
     description:
-      "Clear research, accurate data entry, useful dashboards, and concise reports that turn scattered information into confident decisions.",
-    detail: "Research · Sheets · Insights",
+      "Goal-led digital campaigns that connect content, search, and analytics to build visibility and turn attention into measurable action.",
+    detail: "Campaigns · Analytics · Growth",
+  },
+  {
+    title: "Video Editing",
+    description:
+      "Polished short-form and promotional videos shaped from raw footage with clean cuts, strong pacing, captions, and brand-aligned finishing.",
+    detail: "Reels · Captions · Storytelling",
   },
   {
     title: "SEO & Web Support",
@@ -45,34 +51,28 @@ const services = [
       "Keyword research, on-page improvements, content recommendations, and thoughtful landing-page reviews that strengthen your visibility.",
     detail: "SEO · Content · Conversion",
   },
-  {
-    title: "Travel Planning",
-    description:
-      "Detailed itineraries, booking research, and smooth logistics for business or personal travel—organised in one easy-to-use plan.",
-    detail: "Itineraries · Booking · Logistics",
-  },
 ];
 
 const tools = [
   "Google Workspace",
-  "Notion",
-  "Trello",
-  "Asana",
   "Google Analytics",
   "Search Console",
-  "Meta Business Suite",
-  "Meta Pixel",
+  "Meta Business Tools",
+  "CapCut",
+  "Canva",
   "Google Trends",
   "ChatGPT",
+  "Claude AI",
+  "Buffer",
 ];
 
 const projects = [
   {
-    title: "Travel Itinerary",
-    category: "Planning & logistics",
+    title: "Social Media Content Plan",
+    category: "Social media management",
     description:
-      "A multi-destination travel plan bringing accommodation, transport, daily schedules, and essential details into one calm itinerary.",
-    className: "project-visual--travel",
+      "A structured monthly content plan combining campaign themes, platform-ready captions, publishing schedules, and engagement prompts.",
+    className: "project-visual--social",
   },
   {
     title: "Operations Toolkit",
@@ -82,18 +82,18 @@ const projects = [
     className: "project-visual--operations",
   },
   {
-    title: "Performance Dashboard",
-    category: "Reporting & insights",
+    title: "Short-Form Video Edit",
+    category: "Video editing",
     description:
-      "A clear KPI dashboard that organises sales and campaign data so progress, patterns, and next actions are easy to understand.",
-    className: "project-visual--dashboard",
+      "A polished vertical video edit using intentional pacing, clean transitions, captions, and brand-led visual details to hold attention.",
+    className: "project-visual--video",
   },
   {
-    title: "KiraBeauty SEO Review",
-    category: "Search strategy",
+    title: "Asfaras Consulting",
+    category: "Digital presence",
     description:
-      "Keyword research, an on-page audit, and focused content recommendations created to improve discovery for a skincare brand.",
-    className: "project-visual--seo",
+      "A coordinated digital presence for Asfaras Consulting, bringing website content, search visibility, and social messaging into one clear brand experience.",
+    className: "project-visual--asfaras",
   },
 ];
 
@@ -122,16 +122,20 @@ function CloseIcon(props: SVGProps<SVGSVGElement>) {
 }
 
 function ProjectVisual({ className }: { className: string }) {
-  if (className.includes("travel")) {
+  if (className.includes("social")) {
     return (
       <div className={`project-visual ${className}`} aria-hidden="true">
-        <span className="route-dot route-dot--one" />
-        <span className="route-dot route-dot--two" />
-        <span className="route-dot route-dot--three" />
-        <svg viewBox="0 0 420 260" preserveAspectRatio="none">
-          <path d="M35 205C97 64 173 227 230 113s104-56 154-81" />
-        </svg>
-        <span className="travel-code">LOS — CPT</span>
+        <div className="social-board">
+          <div className="social-profile">
+            <span />
+            <div><b>CONTENT PLAN</b><i /></div>
+          </div>
+          <div className="social-post-grid">
+            {["Launch", "Educate", "Engage", "Story"].map((label) => (
+              <div key={label}><i /><span>{label}</span></div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -148,13 +152,17 @@ function ProjectVisual({ className }: { className: string }) {
     );
   }
 
-  if (className.includes("dashboard")) {
+  if (className.includes("video")) {
     return (
       <div className={`project-visual ${className}`} aria-hidden="true">
-        <div className="chart-label"><span>PERFORMANCE</span><b>+28%</b></div>
-        <div className="chart-bars">
-          {[36, 52, 43, 74, 64, 88, 79].map((height, index) => (
-            <i key={height + index} style={{ height: `${height}%` }} />
+        <div className="video-frame">
+          <span>EDIT IN PROGRESS</span>
+          <strong>YOUR STORY,<br />CUT CLEARLY.</strong>
+          <i />
+        </div>
+        <div className="video-timeline">
+          {[54, 82, 68, 92, 61].map((width) => (
+            <i key={width} style={{ width: `${width}%` }} />
           ))}
         </div>
       </div>
@@ -162,10 +170,10 @@ function ProjectVisual({ className }: { className: string }) {
   }
 
   return (
-      <div className={`project-visual ${className}`} aria-hidden="true">
-        <span className="search-pill">clean skincare</span>
-        <div className="search-rings"><i /><i /><i /></div>
-      </div>
+    <div className={`project-visual ${className}`} aria-hidden="true">
+      <span className="search-pill">Asfaras Consulting</span>
+      <div className="search-rings"><i /><i /><i /></div>
+    </div>
   );
 }
 
@@ -359,8 +367,9 @@ export function PortfolioPage() {
             </h1>
 
             <p className="hero-intro" data-hero-copy>
-              I’m <strong>Precious Adesoji</strong>—a virtual assistant and digital marketing
-              specialist helping busy founders stay organised, visible, and confidently ahead.
+              I’m <strong>Precious Adesoji</strong>—a social media manager, virtual assistant,
+              and digital marketing specialist helping busy founders stay organised, visible,
+              and confidently ahead.
             </p>
 
             <div className="hero-actions" data-hero-actions>
@@ -511,8 +520,8 @@ export function PortfolioPage() {
               <h2>Thoughtful work.<br />Tangible outcomes.</h2>
             </div>
             <p>
-              A snapshot of the systems, reports, and strategies I can create. Full samples are
-              available on request.
+              A snapshot of the content systems, video edits, and digital strategies I can
+              create. Full samples are available on request.
             </p>
           </div>
 
@@ -584,7 +593,7 @@ export function PortfolioPage() {
           <span className="brand-mark">PA</span>
           <span className="brand-name">Precious Adesoji</span>
         </a>
-        <p>Virtual assistance · Digital marketing · Remote worldwide</p>
+        <p>Social media management · Video editing · Virtual assistance</p>
         <div><span>© {new Date().getFullYear()} Precious Adesoji</span><a href="#top">Back to top ↑</a></div>
       </footer>
     </div>
