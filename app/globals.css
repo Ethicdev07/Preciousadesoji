@@ -775,6 +775,10 @@ a {
   overflow: hidden;
 }
 
+.project-visual--image {
+  height: clamp(260px, 30vw, 420px);
+}
+
 .project-card {
   min-width: 0;
 }

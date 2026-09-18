@@ -66,21 +66,29 @@ const projects = [
     title: "Social Media Content Plan",
     category: "Social media management",
     className: "project-visual--social",
+    imageSrc: "/contentplan.jpeg",
+    href: "#contact",
   },
   {
     title: "Meta ads campaign",
     category: "Paid advertising",
     className: "project-visual--operations",
+    imageSrc: "/metacampaginads.jpeg",
+    href: "#contact",
   },
   {
     title: "Short-Form Video Edit",
     category: "Video editing",
     className: "project-visual--video",
+    href: "https://drive.google.com/drive/folders/1UjGLCItgY_H7ALPMXhz0T11zx2PRDEi1?usp=sharing",
   },
   {
     title: "Asfaras Consulting",
     category: "Digital presence",
     className: "project-visual--asfaras",
+    imageSrc: "/asfarasbeforeandafter.jpeg",
+    imagePosition: "88% 10%",
+    href: "#contact",
   },
 ];
 
@@ -108,7 +116,32 @@ function CloseIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-function ProjectVisual({ className }: { className: string }) {
+function ProjectVisual({
+  className,
+  title,
+  imageSrc,
+  imagePosition,
+}: {
+  className: string;
+  title: string;
+  imageSrc?: string;
+  imagePosition?: string;
+}) {
+  if (imageSrc) {
+    return (
+      <div className={`project-visual project-visual--image ${className}`} aria-hidden="true">
+        <Image
+          src={imageSrc}
+          alt={`${title} project preview`}
+          fill
+          quality={95}
+          sizes="(max-width: 760px) 92vw, (max-width: 1100px) 46vw, 560px"
+          style={{ objectFit: "cover", objectPosition: imagePosition ?? "center" }}
+        />
+      </div>
+    );
+  }
+
   if (className.includes("social")) {
     return (
       <div className={`project-visual ${className}`} aria-hidden="true">
@@ -547,12 +580,22 @@ export function PortfolioPage() {
           <div className="project-grid">
             {projects.map((project) => (
               <article className="project-card" key={project.title} data-reveal>
-                <ProjectVisual className={project.className} />
+                <ProjectVisual
+                  className={project.className}
+                  title={project.title}
+                  imageSrc={project.imageSrc}
+                  imagePosition={project.imagePosition}
+                />
                 <div className="project-meta">
                   <span>{project.category}</span>
                 </div>
                 <h3>{project.title}</h3>
-                <a href="#contact" aria-label={`Ask about ${project.title}`}>
+                <a
+                  href={project.href}
+                  aria-label={`Ask about ${project.title}`}
+                  target={project.href.startsWith("http") ? "_blank" : undefined}
+                  rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                >
                   Ask about this project <ArrowIcon />
                 </a>
               </article>
