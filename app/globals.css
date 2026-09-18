@@ -796,6 +796,47 @@ a {
   line-height: 1.72;
 }
 
+.project-done {
+  margin-top: 16px;
+}
+
+.project-done > span {
+  display: inline-flex;
+  margin-bottom: 8px;
+  color: #6d7873;
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-done ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 7px;
+}
+
+.project-done li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.project-done li::before {
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  content: "";
+}
+
 .project-card > a {
   display: inline-flex;
   align-items: center;
@@ -1073,6 +1114,14 @@ a {
   color: rgba(255,255,255,0.38);
   font-size: 0.66rem;
   text-align: center;
+}
+
+.form-note--success {
+  color: rgba(214, 244, 219, 0.95);
+}
+
+.form-note--error {
+  color: rgba(255, 189, 189, 0.95);
 }
 
 .site-footer {

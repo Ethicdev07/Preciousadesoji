@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import emailjs from "@emailjs/browser";
 import { AnimatePresence, motion, useReducedMotion, useScroll } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -45,12 +46,6 @@ const services = [
       "Polished short-form and promotional videos shaped from raw footage with clean cuts, strong pacing, captions, and brand-aligned finishing.",
     detail: "Reels · Captions · Storytelling",
   },
-  {
-    title: "SEO & Web Support",
-    description:
-      "Keyword research, on-page improvements, content recommendations, and thoughtful landing-page reviews that strengthen your visibility.",
-    detail: "SEO · Content · Conversion",
-  },
 ];
 
 const tools = [
@@ -70,29 +65,21 @@ const projects = [
   {
     title: "Social Media Content Plan",
     category: "Social media management",
-    description:
-      "A structured monthly content plan combining campaign themes, platform-ready captions, publishing schedules, and engagement prompts.",
     className: "project-visual--social",
   },
   {
-    title: "Operations Toolkit",
-    category: "Admin systems",
-    description:
-      "A practical collection of SOPs, email templates, meeting notes, and trackers designed to help a growing team work consistently.",
+    title: "Meta ads campaign",
+    category: "Paid advertising",
     className: "project-visual--operations",
   },
   {
     title: "Short-Form Video Edit",
     category: "Video editing",
-    description:
-      "A polished vertical video edit using intentional pacing, clean transitions, captions, and brand-led visual details to hold attention.",
     className: "project-visual--video",
   },
   {
     title: "Asfaras Consulting",
     category: "Digital presence",
-    description:
-      "A coordinated digital presence for Asfaras Consulting, bringing website content, search visibility, and social messaging into one clear brand experience.",
     className: "project-visual--asfaras",
   },
 ];
@@ -181,7 +168,8 @@ export function PortfolioPage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [formStatus, setFormStatus] = useState<"idle" | "opening">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [formMessage, setFormMessage] = useState("");
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
 
@@ -272,21 +260,52 @@ export function PortfolioPage() {
     return () => context.revert();
   }, [reduceMotion]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (formStatus === "sending") return;
+
     const form = event.currentTarget;
     const data = new FormData(form);
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
-    const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
-    const body = encodeURIComponent(
-      `Hi Precious,\n\n${message}\n\nFrom: ${name}\nEmail: ${email}`,
-    );
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
-    setFormStatus("opening");
-    window.location.href = `mailto:hello@preciousadesoji4.com.ng?subject=${subject}&body=${body}`;
-    window.setTimeout(() => setFormStatus("idle"), 1800);
+    if (!serviceId || !templateId || !publicKey) {
+      setFormStatus("error");
+      setFormMessage("Email service is not configured yet. Please add EmailJS environment variables.");
+      return;
+    }
+
+    setFormStatus("sending");
+    setFormMessage("");
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          user_name: name,
+          user_email: email,
+          reply_to: email,
+          message,
+        },
+        { publicKey },
+      );
+
+      setFormStatus("success");
+      setFormMessage("Thanks. Your message has been sent successfully.");
+      form.reset();
+      window.setTimeout(() => {
+        setFormStatus("idle");
+        setFormMessage("");
+      }, 4200);
+    } catch {
+      setFormStatus("error");
+      setFormMessage("Message failed to send. Please try again in a moment.");
+    }
   }
 
   return (
@@ -347,8 +366,8 @@ export function PortfolioPage() {
                 </motion.a>
               ))}
             </nav>
-            <a className="mobile-email" href="mailto:hello@preciousadesoji4.com.ng">
-              hello@preciousadesoji4.com.ng <ArrowIcon />
+            <a className="mobile-email" href="mailto:preciousadesoji4@gmail.com">
+              preciousadesoji4@gmail.com <ArrowIcon />
             </a>
           </motion.div>
         )}
@@ -404,7 +423,7 @@ export function PortfolioPage() {
             <div className="hero-image-frame">
               <div className="hero-image-inner" data-hero-image-inner>
                 <Image
-                  src="/precious-adesoji.jpg"
+                  src="/Adesojiprecious.webp"
                   alt="Precious Adesoji seated in a creative workspace"
                   fill
                   priority
@@ -533,7 +552,6 @@ export function PortfolioPage() {
                   <span>{project.category}</span>
                 </div>
                 <h3>{project.title}</h3>
-                <p>{project.description}</p>
                 <a href="#contact" aria-label={`Ask about ${project.title}`}>
                   Ask about this project <ArrowIcon />
                 </a>
@@ -551,8 +569,8 @@ export function PortfolioPage() {
               follow-through to help you move it forward.
             </p>
             <div className="contact-details">
-              <a href="mailto:hello@preciousadesoji4.com.ng">
-                <span>Email</span>hello@preciousadesoji4.com.ng
+              <a href="mailto:preciousadesoji4@gmail.com">
+                <span>Email</span>preciousadesoji4@gmail.com
               </a>
               <a href="tel:+2347039658479">
                 <span>Phone</span>+234 703 965 8479
@@ -576,14 +594,18 @@ export function PortfolioPage() {
             <motion.button
               className="form-button"
               type="submit"
-              disabled={formStatus === "opening"}
+              disabled={formStatus === "sending"}
               whileHover={reduceMotion ? undefined : { y: -3 }}
               whileTap={reduceMotion ? undefined : { scale: 0.98 }}
             >
-              {formStatus === "opening" ? "Opening your email…" : "Start the conversation"}
+              {formStatus === "sending" ? "Sending message..." : "Start the conversation"}
               <ArrowIcon />
             </motion.button>
-         
+            {formMessage && (
+              <p className={`form-note ${formStatus === "error" ? "form-note--error" : "form-note--success"}`}>
+                {formMessage}
+              </p>
+            )}
           </form>
         </section>
       </main>
