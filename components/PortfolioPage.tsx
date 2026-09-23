@@ -87,7 +87,7 @@ const projects = [
     category: "Digital presence",
     className: "project-visual--asfaras",
     imageSrc: "/asfarasbeforeandafter.jpeg",
-    imagePosition: "88% 10%",
+    imagePosition: "88% 0%",
     href: "#contact",
   },
 ];
@@ -456,7 +456,7 @@ export function PortfolioPage() {
             <div className="hero-image-frame">
               <div className="hero-image-inner" data-hero-image-inner>
                 <Image
-                  src="/Adesojiprecious.webp"
+                  src="/PreciousAdesoji.jpeg"
                   alt="Precious Adesoji seated in a creative workspace"
                   fill
                   priority
