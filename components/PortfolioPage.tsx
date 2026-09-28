@@ -323,7 +323,7 @@ export function PortfolioPage() {
           user_name: name,
           user_email: email,
           reply_to: email,
-          message,
+          user_message: message,
         },
         { publicKey },
       );
